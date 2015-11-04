@@ -1,0 +1,51 @@
+AOS is Start
+LOS is End
+Max is highest point
+
+ISS Launch Date: November 20, 1998
+
+ISS (ZARYA) has SATCAT ID 25544
+
+ZARYA refers to the first component of ISS launched: https://en.wikipedia.org/wiki/Zarya (means Sunrise)
+
+ISS TLE for January 1st, 2000:
+
+ISS (ZARYA)        
+1 25544U 98067A   99365.25210293 +.00032147 +00000-0 +34333-3 0  9992
+2 25544 051.5904 281.7697 0007688 027.4031 109.5019 15.63583081063400
+
+
+EXAMPLE
+
+ISS (ZARYA)        
+1 25544U 98067A   99213.04994576 +.00040656 +00000-0 +48272-3 0  9995
+2 25544 051.5958 332.0929 0009440 161.4809 198.7086 15.60714243039609
+
+First Line: Satellite Name
+
+Second Line:
+1 - Line Number
+25544 - Satellite number
+U - Unclassified
+98 - International Designator - Last two digits of launch year
+067 - International Designator - Launch number of year
+A__ - International Designator - Piece of the Launch
+99 - Epoch Year (last two digits of year)
+213.04994576 - Epoch (day of the year and fractional portion of the day)
++.00040656 - First Time Derivative of the Mean Motion divided by two
++00000-0 - Second Time Derivative of Mean Motion divided by six (decimal point assumed)
+0 - The number 0 (originally this should have been "Ephemeris type")
+_999 - Element set number. Incremented when a new TLE is generated for this object.
+5 - Checksum (modulo 10)
+
+Third Line:
+2 - Line Number
+25544 - Satellite number
+051.5958 - Inclination (degrees)
+247.4627 - Right ascension of the ascending node (degrees)	
+0009440 - Eccentricity (decimal point assumed)
+161.4809 - Argument of perigee (degrees)
+198.7086 - Mean Anomaly (degrees)	325.0288
+15.60714243 - Mean Motion (revolutions per day)
+03960 - Revolution number at epoch (revolutions)	[5 digits]
+9 - Checksum (modulo 10)
