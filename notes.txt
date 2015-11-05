@@ -49,3 +49,5 @@ Third Line:
 15.60714243 - Mean Motion (revolutions per day)
 03960 - Revolution number at epoch (revolutions)	[5 digits]
 9 - Checksum (modulo 10)
+
+Metonic Cycle - nice diagram: https://en.m.wikipedia.org/wiki/Metonic_cycle

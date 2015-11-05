@@ -41,13 +41,14 @@ $now = $julianDay;
 
 // You can modify some preferences in Predict(), the defaults are below
 //
-// $predict->minEle     = 10; // Minimum elevation for a pass
+$predict->minEle     = 0; // Minimum elevation for a pass
 // $predict->timeRes    = 10; // Pass details: time resolution in seconds
 // $predict->numEntries = 20; // Pass details: number of entries per pass
 // $predict->threshold  = -6; // Twilight threshold (sun must be at this lat or lower)
 
 // Get the passes and filter visible only, takes about 4 seconds for 10 days
 $results  = $predict->get_passes($sat, $qth, $now, 10);
+
 $filtered = $predict->filterVisiblePasses($results);
 
 $zone   = 'Europe/London'; 		// Target time zone
