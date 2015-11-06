@@ -1,18 +1,29 @@
+
+var plot;
+var plotsize;
+var radius;
+var cx;
+var cy;
+
 $( document ).ready(function() { 
 
-	var plot = SVG('plot').size(400, 400);
+	var plotsize = 400;
+
+	plot = SVG('plot').size(plotsize, plotsize);
+	radius = (plotsize * 3/4)/2;
+	cx = cy = plotsize / 2;
 	
-	var circle1 = plot.circle(300).attr({'fill-opacity': 0, stroke: '#888', 'stroke-width': 1}).cx(200).cy(200);	
-	var circle2 = plot.circle(200).attr({'fill-opacity': 0, stroke: '#888', 'stroke-width': 1}).cx(200).cy(200);
-	var circle3 = plot.circle(100).attr({'fill-opacity': 0, stroke: '#888', 'stroke-width': 1}).cx(200).cy(200);
+	var circle1 = plot.circle(2*radius).attr({'fill-opacity': 0, stroke: '#888', 'stroke-width': 1}).cx(cx).cy(cy);	
+	var circle2 = plot.circle(2*radius*2/3).attr({'fill-opacity': 0, stroke: '#888', 'stroke-width': 1}).cx(cx).cy(cy);
+	var circle3 = plot.circle(2*radius*1/3).attr({'fill-opacity': 0, stroke: '#888', 'stroke-width': 1}).cx(cx).cy(cy);
 	
-	var lon = plot.line(200, 35, 200, 365).stroke({ width: 1, color: '#888' });
-	var lat = plot.line(35, 200, 365, 200).stroke({ width: 1, color: '#888' });
+	var lon = plot.line(cx, 35, cy, plotsize-35).stroke({ width: 1, color: '#888' });
+	var lat = plot.line(35, cx, plotsize-35, cy).stroke({ width: 1, color: '#888' });
 		
-	var north = plot.text("N").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(200).cy(25);
-	var east = plot.text("E").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(375).cy(200);
-	var south = plot.text("S").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(200).cy(375);
-	var west = plot.text("W").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(25).cy(200);
+	var north = plot.text("N").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(cx).cy(25);
+	var east = plot.text("E").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(plotsize-25).cy(cy);
+	var south = plot.text("S").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(cx).cy(plotsize-25);
+	var west = plot.text("W").font({family: 'Helvetica Neue', size: 14, anchor: 'start'}).cx(25).cy(cy);
 	
 	$('#details').html("Loading...");
 	
@@ -43,9 +54,45 @@ function writeDetails(pass) {
 	}
 
 function drawPass(details) {
-	foreach (details as detail) {
-		console.log(detail);
+	for(var i = 0; i < details.length; i++) {
+/* 		console.log(details[i].az,details[i].el); */
 		}
+	var polarpoint = polarPlot(0,0);
+	console.log(polarpoint.x, polarpoint.y);
+	var point = plot.circle(5).attr({fill: '#f00', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+polarpoint.x).cy(cy+polarpoint.y);
+	var polarpoint = polarPlot(45,45);
+	console.log(polarpoint.x, polarpoint.y);
+	var point = plot.circle(5).attr({fill: '#ff0', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+polarpoint.x).cy(cy+polarpoint.y);
+	var polarpoint = polarPlot(0,90);
+	console.log(polarpoint.x, polarpoint.y);
+	var point = plot.circle(5).attr({fill: '#0f0', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+polarpoint.x).cy(cy+polarpoint.y);
+	}
+
+// this function takes the elevation and azimuth of the position to plot
+// as well as the radius of the polar graph
+// and returns an x,y array relative to the centre of the polar graph
+function polarPlot(elevation, azimuth) {
+	// h is elevation measured from outside of polar plot, scaled to radius
+	// (elevation is always 0-90deg
+	var h = (radius/90) * (90-elevation);
+	if (0 <= azimuth < 90) {
+		var x =   (h * Math.cos(90 - azimuth));
+		var y = - (h * Math.sin(90 - azimuth));
+		}
+	if (90 <= azimuth < 180) {
+		var x =   (h * Math.cos(azimuth - 90));
+		var y =   (h * Math.sin(azimuth - 90));  
+		}
+	if (180 <= azimuth < 270) {
+		var x = - (h * Math.cos(270 - azimuth));
+		var y =   (h * Math.sin(270 - azimuth));  
+		}
+	if (270 <= azimuth) {
+		var x = - (h * Math.cos(azimuth - 270));
+		var y = - (h * Math.sin(azimuth - 270));  
+		}
+	var polarpoint = {'x':x,'y':y};	
+	return polarpoint;
 	}
 	
 Number.prototype.Julian2Date = function() {
