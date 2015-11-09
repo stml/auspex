@@ -11,6 +11,8 @@ body {
 #plot {
 	margin: auto;
 	background: #eee;
+	width: 100%;
+	height: 100%;
 	}
 #details {
 	margin-top: 25px;

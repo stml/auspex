@@ -9,7 +9,7 @@ $( document ).ready(function() {
 	
 	var plotsize = 400;
 
-	plot = SVG('plot').size(plotsize, plotsize);
+	plot = SVG('plot').viewbox(0, 0, plotsize, plotsize);
 	radius = (plotsize * 3/4)/2;
 	cx = cy = plotsize / 2;
 	
