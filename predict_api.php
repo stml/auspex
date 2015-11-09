@@ -16,10 +16,14 @@ $qth->alt = 0; // Altitude in meters
 $qth->lat = 37.97895;   // Latitude North
 $qth->lon = 23.74606; // Longitude East
 
-$tleFile = file('iss/iss.tle'); // Load up the ISS data file from NORAD
+$tleFile = file('iss/iss_2000.tle'); // Load up the ISS data file from NORAD
 $tle     = new Predict_TLE($tleFile[0], $tleFile[1], $tleFile[2]); // Instantiate it
 $sat     = new Predict_Sat($tle); // Load up the satellite data
 $now     = Predict_Time::get_current_daynum(); // get the current time as Julian Date (daynum)
+
+$timestamp = strtotime('01-01-2000 00:00');
+$julianDay = $timestamp / 86400 + 2440587.5;
+$now = $julianDay;
 
 $zone   = 'Europe/Athens'; // time zone
 $format = 'm-d-Y H:i:s';   // Time format from PHP's date() function

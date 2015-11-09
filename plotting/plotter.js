@@ -6,7 +6,7 @@ var cx;
 var cy;
 
 $( document ).ready(function() { 
-
+	
 	var plotsize = 400;
 
 	plot = SVG('plot').size(plotsize, plotsize);
@@ -54,18 +54,28 @@ function writeDetails(pass) {
 	}
 
 function drawPass(details) {
+	var points = [];
 	for(var i = 0; i < details.length; i++) {
-/* 		console.log(details[i].az,details[i].el); */
+		points.push(polarPlot(details[i].el,details[i].az));
 		}
+	for (var i = 1; i < points.length; i++) {
+		// rainbow colour line
+		var line = plot.line(cx+points[i-1].x, cy+points[i-1].y, cx+points[i].x, cy+points[i].y).stroke({ width: 1, color: '#00f' });
+		}
+	for (var i = 0; i < points.length; i++) {
+		var point = plot.circle(5).attr({fill: '#00f', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+points[i].x).cy(cy+points[i].y);
+		}
+/*
 	var polarpoint = polarPlot(0,0);
 	console.log(polarpoint.x, polarpoint.y);
 	var point = plot.circle(5).attr({fill: '#f00', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+polarpoint.x).cy(cy+polarpoint.y);
 	var polarpoint = polarPlot(45,45);
 	console.log(polarpoint.x, polarpoint.y);
 	var point = plot.circle(5).attr({fill: '#ff0', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+polarpoint.x).cy(cy+polarpoint.y);
-	var polarpoint = polarPlot(0,90);
+	var polarpoint = polarPlot(0,89);
 	console.log(polarpoint.x, polarpoint.y);
 	var point = plot.circle(5).attr({fill: '#0f0', 'fill-opacity': 1, 'stroke-width': 0}).cx(cx+polarpoint.x).cy(cy+polarpoint.y);
+*/
 	}
 
 // this function takes the elevation and azimuth of the position to plot
@@ -76,20 +86,20 @@ function polarPlot(elevation, azimuth) {
 	// (elevation is always 0-90deg
 	var h = (radius/90) * (90-elevation);
 	if (0 <= azimuth < 90) {
-		var x =   (h * Math.cos(90 - azimuth));
-		var y = - (h * Math.sin(90 - azimuth));
+		var x =   (h * Math.cos(Math.PI * ((90 - azimuth)/180)));
+		var y = - (h * Math.sin(Math.PI * ((90 - azimuth)/180)));
 		}
 	if (90 <= azimuth < 180) {
-		var x =   (h * Math.cos(azimuth - 90));
-		var y =   (h * Math.sin(azimuth - 90));  
+		var x =   (h * Math.cos(Math.PI * ((azimuth - 90)/180)));
+		var y =   (h * Math.sin(Math.PI * ((azimuth - 90)/180)));  
 		}
 	if (180 <= azimuth < 270) {
-		var x = - (h * Math.cos(270 - azimuth));
-		var y =   (h * Math.sin(270 - azimuth));  
+		var x = - (h * Math.cos(Math.PI * ((270 - azimuth)/180)));
+		var y =   (h * Math.sin(Math.PI * ((270 - azimuth)/180)));  
 		}
 	if (270 <= azimuth) {
-		var x = - (h * Math.cos(azimuth - 270));
-		var y = - (h * Math.sin(azimuth - 270));  
+		var x = - (h * Math.cos(Math.PI * ((azimuth - 270)/180)));
+		var y = - (h * Math.sin(Math.PI * ((azimuth - 270)/180)));  
 		}
 	var polarpoint = {'x':x,'y':y};	
 	return polarpoint;
